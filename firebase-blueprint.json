@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Assessment": {
+      "title": "Assessment",
+      "description": "User career assessment results",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "answers": { "type": "array", "items": { "type": "object" } },
+        "computedResult": { "type": "object" },
+        "unlocked": { "type": "boolean" },
+        "priceAtPurchase": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "answers", "unlocked"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "M-Pesa payment records",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "assessmentId": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "paid", "failed"] },
+        "merchantRequestId": { "type": "string" },
+        "checkoutRequestId": { "type": "string" },
+        "mpesaReceipt": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "assessmentId", "amount", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/assessments/{assessmentId}": {
+      "schema": "Assessment",
+      "description": "Career assessments"
+    },
+    "/payments/{paymentId}": {
+      "schema": "Payment",
+      "description": "Payment transactions"
+    }
+  }
+}
