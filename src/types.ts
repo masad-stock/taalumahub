@@ -3,20 +3,22 @@ export interface UserProfile {
   email: string;
   displayName?: string;
   phoneNumber?: string;
-  role: 'user' | 'admin';
+  role: "user" | "admin";
   createdAt: string;
 }
 
 export interface Question {
   id: string;
   text: string;
-  type: 'single' | 'multi' | 'rank';
+  type: "single" | "multi" | "rank";
   options: string[];
 }
 
 export interface CareerRecommendation {
   title: string;
   rationale: string;
+  institutions?: string[];
+  courses?: string[];
 }
 
 export interface AssessmentResult {
@@ -41,7 +43,7 @@ export interface Payment {
   userId: string;
   assessmentId: string;
   amount: number;
-  status: 'pending' | 'paid' | 'failed';
+  status: "pending" | "paid" | "failed";
   merchantRequestId?: string;
   checkoutRequestId?: string;
   mpesaReceipt?: string;

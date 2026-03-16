@@ -1,0 +1,14 @@
+export { LandingPage } from "./LandingPage";
+export { ServicesPage } from "./ServicesPage";
+export { AboutPage } from "./AboutPage";
+export { ContactPage } from "./ContactPage";
+export { DashboardPage } from "./DashboardPage";
+export { QuizPage } from "./QuizPage";
+export { ResultsPage } from "./ResultsPage";
+export { default as BlogPage } from "./BlogPage";
+export { default as CareerGuidePage } from "./CareerGuidePage";
+export { default as SuccessStoriesPage } from "./SuccessStoriesPage";
+export { default as PartnersPage } from "./PartnersPage";
+export { default as PrivacyPolicyPage } from "./PrivacyPolicyPage";
+export { default as TermsOfServicePage } from "./TermsOfServicePage";
+export { default as CookiePolicyPage } from "./CookiePolicyPage";
