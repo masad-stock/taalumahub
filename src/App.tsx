@@ -32,7 +32,6 @@ import {
 import { Button } from "./components/ui";
 import {
   Loader2,
-  Briefcase,
   Menu,
   X,
   User as UserIcon,
@@ -104,20 +103,14 @@ function Header({
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <div
-              className="flex items-center gap-3 cursor-pointer group"
+              className="flex items-center cursor-pointer group"
               onClick={() => navigate(user ? "/dashboard" : "/")}
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200 group-hover:shadow-indigo-300 transition-shadow duration-300">
-                <Briefcase className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-xl tracking-tight text-zinc-900">
-                  TaalumaHub
-                </span>
-                <span className="hidden sm:block text-[10px] text-zinc-500 uppercase tracking-wider font-medium -mt-1">
-                  Career Guidance
-                </span>
-              </div>
+              <img
+                src="/logo.png"
+                alt="TaalumaHub"
+                className="h-12 w-auto object-contain"
+              />
             </div>
 
             {/* Desktop Navigation */}
@@ -458,11 +451,12 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center">
-                <Briefcase className="w-6 h-6 text-white" />
-              </div>
-              <span className="font-bold text-xl text-white">TaalumaHub</span>
+            <div className="flex items-center">
+              <img
+                src="/logo.png"
+                alt="TaalumaHub"
+                className="h-12 w-auto object-contain brightness-0 invert"
+              />
             </div>
             <p className="text-sm text-zinc-400 leading-relaxed max-w-xs">
               Empowering young Africans to make confident, informed career
