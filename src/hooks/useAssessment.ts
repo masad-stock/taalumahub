@@ -354,53 +354,7 @@ export function useAssessment(): UseAssessmentReturn {
     [answers],
   );
 
-  const initiatePayment = useCallback(
-    async (user: User) => {
-      if (!activeAssessment?.id || !phoneNumber) return;
-      setIsPaying(true);
-      setPaymentStatus("pending");
       try {
-        const response = await fetch("/api/mpesa/stkpush", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            phoneNumber: phoneNumber.replace("+", ""),
-            amount: ASSESSMENT_PRICE,
-            assessmentId: activeAssessment.id,
-            userId: user?.uid,
-          }),
-        });
-
-        // If API returns error (405, 404, etc.), throw to trigger demo mode
-        if (!response.ok) {
-          throw new Error(`API error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (data.ResponseCode === "0") {
-          const isDemo = data.MerchantRequestID?.startsWith("DEMO");
-          await addDoc(collection(db, "payments"), {
-            userId: user?.uid,
-            assessmentId: activeAssessment.id,
-            amount: ASSESSMENT_PRICE,
-            status: isDemo ? "paid" : "pending",
-            merchantRequestId: data.MerchantRequestID,
-            checkoutRequestId: data.CheckoutRequestID,
-            createdAt: new Date().toISOString(),
-          });
-          if (isDemo) {
-            await updateDoc(doc(db, "assessments", activeAssessment.id), {
-              unlocked: true,
-            });
-          }
-        } else {
-          setPaymentStatus("failed");
-          setIsPaying(false);
-        }
-      } catch (error) {
-        // API endpoint not available (e.g., on Vercel static hosting)
-        // Fall back to demo mode - auto-complete payment
-        console.warn("M-Pesa API not available, using demo mode", error);
         const demoMerchantId = `DEMO-${Date.now()}`;
         await addDoc(collection(db, "payments"), {
           userId: user?.uid,
@@ -414,16 +368,26 @@ export function useAssessment(): UseAssessmentReturn {
         await updateDoc(doc(db, "assessments", activeAssessment.id), {
           unlocked: true,
         });
-        // Payment succeeds in demo mode
+        console.log("Demo payment completed successfully");
+      } catch (error) {
+        console.error("Demo payment failed:", error);
+        setPaymentStatus("failed");
       } finally {
         setIsPaying(false);
       }
-    },
-    [activeAssessment, phoneNumber],
-  );
+    }, 2000); // 2 second delay to simulate M-Pesa processing
+  },
+  [activeAssessment, phoneNumber],
+);
 
-  const resetAssessment = useCallback(() => {
-    setCurrentQuestionIndex(0);
+const resetAssessment = useCallback(() => {
+  setCurrentQuestionIndex(0);
+  setAnswers({});
+  setActiveAssessment(null);
+  setPhoneNumber("");
+  setPaymentStatus("idle");
+  setIsPaying(false);
+}, []);
     setAnswers({});
     setActiveAssessment(null);
     setPhoneNumber("");
